@@ -21,6 +21,7 @@ class nQueensTable {
     void show();
 
     // Serialization
+    void updateFromVector(vector<long long> vec);
     void updateFromSerial(string s);
     string serialize();
 

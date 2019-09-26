@@ -39,6 +39,20 @@ void nQueensTable::updateFromSerial(string s) {
     }
 }
 
+void nQueensTable::updateFromVector(vector<long long> vec) {
+    if (vec.size() == this->N) {
+        for (long long i = 0; i < this->N; i++) {
+            long long position = vec.at(i);
+            if (position >= this->N || position < -1){
+                throw out_of_range("Position invalid!");
+            }
+            this->board.at(i) = position;
+        }
+    } else {
+        throw length_error("Serial has a size different from expected!");
+    }
+}
+
 string nQueensTable::serialize() {
     string result = "";
 
