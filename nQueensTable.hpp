@@ -12,7 +12,7 @@ using namespace std;
 class NQueensTable {
    private:
     long long N;
-    vector<long long> board;
+    long long *board;
 
    public:
     NQueensTable(long long N);
@@ -21,7 +21,7 @@ class NQueensTable {
     void show();
 
     // Serialization
-    void update_from_vector(vector<long long> vec);
+    void update_from_vector(vector<long long> const &vec);
     void update_from_serial(string s);
     string serialize();
 

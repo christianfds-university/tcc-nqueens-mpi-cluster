@@ -4,42 +4,48 @@
 
 // Dependencies and settings
 #include <vector>
+#include <cstdlib>
 
 using namespace std;
 
 // File Starts Here
 class PossibilitiesGenerator {
    private:
-    static void increase(vector<int> &vec, long long base) {
-        vector<int>::iterator it;
-        for (it = vec.begin(); it < vec.end(); it++) {
-            if(*it == (base - 1))
-                *it = 0;
+    static long long *increase(long long *vec, long long len, long long base) {
+        for (long long i = 0; i < len; i++) {
+            if(vec[i] == (base - 1))
+                vec[i] = 0;
             else{
-                (*it)++;
+                (vec[i])++;
                 break;
             }
         }
+
+        long long *new_vec = (long long *) calloc(len, sizeof(long long));
+        for (long long i = 0; i < len; i++) {
+            new_vec[i] = vec[i];
+        }
+        return new_vec;
     }
 
-    static bool is_the_last(vector<int> &vec, long long base) {
-        vector<int>::iterator it;
-        for (it = vec.begin(); it < vec.end(); it++) {
-            if (*it != base - 1) return false;
+    static bool is_the_last(long long *vec, long long len, long long base) {
+        for (long long i = 0; i < len; i++){
+            if (vec[i] != base - 1) return false;
         }
         return true;
     }
 
    public:
-    static vector<vector<int>> generate_possibilites(long long len, long long base) {
-        vector<vector<int>> possibilities;
-        vector<int> possibility = vector<int>(len);
+    static vector<long long *> generate_possibilites(long long len, long long base) {
+        vector<long long *> possibilities;
+        long long *base_possibility = (long long *) calloc(len, sizeof(long long));
 
+        int i = 0;
         do {
-            possibilities.push_back(possibility);
-            if(is_the_last(possibility, base))
+            possibilities.push_back(base_possibility);
+            if(is_the_last(base_possibility, len, base))
                 break;
-            increase(possibility, base);
+            base_possibility = increase(base_possibility, len, base);
         } while(true);
 
         return possibilities;
