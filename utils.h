@@ -9,7 +9,7 @@
 using namespace std;
 
 // File Starts Here
-class utils {
+class Utils {
    public:
     static const vector<string> explode(const string& s, const char& c) {
         string buff{""};

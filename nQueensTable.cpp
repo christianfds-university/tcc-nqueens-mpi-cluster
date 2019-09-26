@@ -1,8 +1,8 @@
-#include "nQueensTable.hpp"
+#include "NQueensTable.hpp"
 #include <iostream>
-#include "utils.h"
+#include "Utils.h"
 
-nQueensTable::nQueensTable(long long N) {
+NQueensTable::NQueensTable(long long N) {
     this->N = N;
     this->board = vector<long long int>(this->N);
 
@@ -11,7 +11,7 @@ nQueensTable::nQueensTable(long long N) {
     }
 }
 
-void nQueensTable::show() {
+void NQueensTable::show() {
     for (long long i = this->N - 1; i >= 0; i--) {
         for (long long j = 0; j < this->N; j++) {
             if(this->board.at(j) == i)
@@ -24,8 +24,8 @@ void nQueensTable::show() {
     
 }
 
-void nQueensTable::updateFromSerial(string s) {
-    vector<string> split_result = utils::explode(s, '|');
+void NQueensTable::update_from_serial(string s) {
+    vector<string> split_result = Utils::explode(s, '|');
     if (split_result.size() == this->N) {
         for (long long i = 0; i < this->N; i++) {
             long long position = stoi(split_result.at(i));
@@ -39,7 +39,7 @@ void nQueensTable::updateFromSerial(string s) {
     }
 }
 
-void nQueensTable::updateFromVector(vector<long long> vec) {
+void NQueensTable::update_from_vector(vector<long long> vec) {
     if (vec.size() == this->N) {
         for (long long i = 0; i < this->N; i++) {
             long long position = vec.at(i);
@@ -53,7 +53,7 @@ void nQueensTable::updateFromVector(vector<long long> vec) {
     }
 }
 
-string nQueensTable::serialize() {
+string NQueensTable::serialize() {
     string result = "";
 
     for(long long i = 0; i < this->N; i++) {
@@ -66,6 +66,6 @@ string nQueensTable::serialize() {
     return result;
 }
 
-nQueensTable::~nQueensTable() {
+NQueensTable::~NQueensTable() {
     this->N = N;
 }

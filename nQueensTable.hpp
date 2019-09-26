@@ -9,22 +9,22 @@
 using namespace std;
 
 // File Starts Here
-class nQueensTable {
+class NQueensTable {
    private:
     long long N;
     vector<long long> board;
 
    public:
-    nQueensTable(long long N);
+    NQueensTable(long long N);
 
     // Presentation
     void show();
 
     // Serialization
-    void updateFromVector(vector<long long> vec);
-    void updateFromSerial(string s);
+    void update_from_vector(vector<long long> vec);
+    void update_from_serial(string s);
     string serialize();
 
-    ~nQueensTable();
+    ~NQueensTable();
 };
 #endif  // N_QUEENS_TABLE_HPP
