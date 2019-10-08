@@ -18,7 +18,7 @@ int main(int argc, char const *argv[]){
     // delete stance;
 
     clock_t begin = clock();
-    vector<long long *> poss = PossibilitiesGenerator::generate_possibilites(8, 8);
+    vector<long long *> poss = PossibilitiesGenerator::generate_all_possibilites(8, 8);
     clock_t end = clock();
 
     // for(auto vi : poss){

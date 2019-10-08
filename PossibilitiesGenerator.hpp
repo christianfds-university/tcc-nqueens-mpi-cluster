@@ -36,7 +36,7 @@ class PossibilitiesGenerator {
     }
 
    public:
-    static vector<long long *> generate_possibilites(long long len, long long base) {
+    static vector<long long *> generate_all_possibilites(long long len, long long base) {
         vector<long long *> possibilities;
         long long *base_possibility = (long long *) calloc(len, sizeof(long long));
 
