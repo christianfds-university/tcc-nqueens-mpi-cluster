@@ -8,6 +8,10 @@
 using namespace std;
 
 /*
+Requirements:
+    libgmp3-dev
+    libboost-program-options-dev
+
 How to compile:
     c++ *.cpp -o main -lgmpxx -lgmp && ./main
 
