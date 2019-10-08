@@ -3,18 +3,18 @@
 #include <iostream>
 #include "Utils.h"
 
-NQueensTable::NQueensTable(long long N) {
+NQueensTable::NQueensTable(unsigned long N) {
     this->N = N;
-    this->board = (long long *) calloc(this->N, sizeof(long long));
+    this->board = (unsigned long *) calloc(this->N, sizeof(unsigned long));
 
-    for (long long i = 0; i < this->N; i++) {
+    for (unsigned long i = 0; i < this->N; i++) {
         this->board[i] = -1;
     }
 }
 
 void NQueensTable::show() {
-    for (long long i = this->N - 1; i >= 0; i--) {
-        for (long long j = 0; j < this->N; j++) {
+    for (unsigned long i = this->N - 1; i >= 0; i--) {
+        for (unsigned long j = 0; j < this->N; j++) {
             if(this->board[j] == i)
                 cout << "Q  ";
             else
@@ -29,8 +29,8 @@ void NQueensTable::update_from_serial(string s) {
     vector<string> split_result = Utils::explode(s, '|');
 
     if (split_result.size() == this->N) {
-        for (long long i = 0; i < this->N; i++) {
-            long long position = stoi(split_result.at(i));
+        for (unsigned long i = 0; i < this->N; i++) {
+            unsigned long position = stoi(split_result.at(i));
             if (position >= this->N || position < -1){
                 throw out_of_range("Position invalid!");
             }
@@ -41,10 +41,10 @@ void NQueensTable::update_from_serial(string s) {
     }
 }
 
-void NQueensTable::update_from_vector(vector<long long> const &vec) {
+void NQueensTable::update_from_vector(vector<unsigned long> const &vec) {
     if (vec.size() == this->N) {
-        for (long long i = 0; i < this->N; i++) {
-            long long position = vec.at(i);
+        for (unsigned long i = 0; i < this->N; i++) {
+            unsigned long position = vec.at(i);
             if (position >= this->N || position < -1){
                 throw out_of_range("Position invalid!");
             }
@@ -58,7 +58,7 @@ void NQueensTable::update_from_vector(vector<long long> const &vec) {
 string NQueensTable::serialize() {
     string result = "";
 
-    for(long long i = 0; i < this->N; i++) {
+    for(unsigned long i = 0; i < this->N; i++) {
         if (i != 0)
             result += "|" + to_string(this->board[i]);
         else

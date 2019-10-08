@@ -1,7 +1,9 @@
 #include <iostream>
 #include <ctime>
+#include <gmpxx.h>
 #include "NQueensTable.hpp"
 #include "PossibilitiesGenerator.hpp"
+#include "Converter.hpp"
 
 using namespace std;
 
@@ -17,9 +19,21 @@ int main(int argc, char const *argv[]){
 
     // delete stance;
 
+
     clock_t begin = clock();
-    vector<long long *> poss = PossibilitiesGenerator::generate_all_possibilites(8, 8);
+
+    Converter conv = Converter(16);
+    mpz_class numb = 35;
+    vector<mpz_class> *vec = conv.ConvertToBase(numb);
+
+    for(auto vi : *vec){
+        cout << vi << "|";
+    }
+    cout << endl;
+
+    // vector<unsigned long *> poss = PossibilitiesGenerator::generate_all_possibilites(8, 8);
     clock_t end = clock();
+
 
     // for(auto vi : poss){
     //     for (auto vj : vi){
@@ -28,12 +42,12 @@ int main(int argc, char const *argv[]){
     //     cout << endl;
     // }
 
-    cout << poss.size() << endl;
+    // cout << poss.size() << endl;
     cout << double(end - begin) / CLOCKS_PER_SEC << endl;
 
-    for(auto it:poss){
-        free(it);
-    }
+    // for(auto it:poss){
+    //     free(it);
+    // }
 
     return 0;
 }

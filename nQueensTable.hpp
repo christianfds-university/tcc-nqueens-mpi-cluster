@@ -11,17 +11,17 @@ using namespace std;
 // File Starts Here
 class NQueensTable {
    private:
-    long long N;
-    long long *board;
+    unsigned long N;
+    unsigned long *board;
 
    public:
-    NQueensTable(long long N);
+    NQueensTable(unsigned long N);
 
     // Presentation
     void show();
 
     // Serialization
-    void update_from_vector(vector<long long> const &vec);
+    void update_from_vector(vector<unsigned long> const &vec);
     void update_from_serial(string s);
     string serialize();
 
