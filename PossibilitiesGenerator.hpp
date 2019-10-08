@@ -3,8 +3,9 @@
 #define POSSIBILITIES_GENERATOR_HPP
 
 // Dependencies and settings
-#include <vector>
 #include <cstdlib>
+#include <vector>
+#include <gmpxx.h>
 
 using namespace std;
 
@@ -49,6 +50,12 @@ class PossibilitiesGenerator {
         } while(true);
 
         return possibilities;
+    }
+
+    static mpz_class total_possibilities(unsigned long base) {
+        mpz_class value;
+        mpz_ui_pow_ui(value.get_mpz_t(), base, base);
+        return value;
     }
 };
 

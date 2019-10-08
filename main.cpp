@@ -26,38 +26,46 @@ How it should work:
         - Validate each possibility
         - Return vector with matched solutions
     **END Cluster
-    - Merge all solutions
     - Calculate time
+    - Merge all solutions
     - Count solutions and print
     - Print all solutions formatted if desired
 
 */
 
-int main(int argc, char const *argv[]) {
-    //Parameter handling
-    po::options_description desc_allowed("Allowed options");
-    desc_allowed.add_options()
-        ("help", "Produce help message");
+int main(int argc, char const* argv[]) {
+    unsigned long tableN;
 
-    po::options_description desc_required("Required options");
-    desc_required.add_options()
-        ("table", po::value<unsigned long>()->default_value(8), "Size of the N-Queens Table");
+    try {
+        //Parameter handling
+        po::options_description desc_allowed("Allowed options");
+        desc_allowed.add_options()("help", "Produce help message");
 
-    po::options_description cmdline_options;
-    cmdline_options.add(desc_allowed).add(desc_required);
+        po::options_description desc_required("Required options");
+        desc_required.add_options()("table", po::value<unsigned long>()->default_value(8), "Size of the N-Queens Table");
 
-    po::variables_map vm;
-    store(po::command_line_parser(argc, argv).options(cmdline_options).run(), vm);
-    notify(vm);
+        po::options_description cmdline_options;
+        cmdline_options.add(desc_allowed).add(desc_required);
 
-    if(vm.count("help")){
-        cout << desc_allowed << endl;
-        cout << desc_required << endl;
+        po::variables_map vm;
+        store(po::command_line_parser(argc, argv).options(cmdline_options).run(), vm);
+        notify(vm);
 
-        return 1;
-    }
-    if(vm.count("table")){
-        cout << "Defined table size as: " << vm["table"].as<unsigned long>() << endl;
+        if (vm.count("help")) {
+            cout << desc_allowed << endl;
+            cout << desc_required << endl;
+
+            return 1;
+        }
+
+        if (vm.count("table")) {
+            tableN = vm["table"].as<unsigned long>();
+            cout << "Defined table size as: " << tableN << endl;
+        }
+    
+    } catch (const std::exception& e) {
+        std::cerr << e.what() << '\n';
+        return 0;
     }
 
     // NQueensTable *stance = new NQueensTable(8);
@@ -71,7 +79,7 @@ int main(int argc, char const *argv[]) {
     // delete stance;
 
     clock_t begin = clock();
-
+    cout << PossibilitiesGenerator::total_possibilities(tableN) << endl;
     // vector<unsigned long *> poss = PossibilitiesGenerator::generate_all_possibilites(8, 8);
     clock_t end = clock();
 
