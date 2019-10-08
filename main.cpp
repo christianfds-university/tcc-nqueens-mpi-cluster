@@ -7,6 +7,24 @@
 
 using namespace std;
 
+/*
+How it should work:
+
+--Count available machines on the clusters
+--Count possibilities
+--Split ranges for each machine
+**BEGIN Cluster
+  |--Create possibilities on the range
+  |--Validate each possibility
+  |--Return vector with matched solutions
+**END Cluster
+--Merge all solutions
+--Calculate time
+--Count solutions and print
+--Print all solutions formatted if desired
+
+*/
+
 int main(int argc, char const *argv[]){
     // NQueensTable *stance = new NQueensTable(8);
 
