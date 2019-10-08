@@ -8,20 +8,22 @@
 using namespace std;
 
 /*
-How it should work:
+How to compile:
+    c++ *.cpp -o main -lgmpxx -lgmp && ./main
 
---Count available machines on the clusters
---Count possibilities
---Split ranges for each machine
-**BEGIN Cluster
-  |--Create possibilities on the range
-  |--Validate each possibility
-  |--Return vector with matched solutions
-**END Cluster
---Merge all solutions
---Calculate time
---Count solutions and print
---Print all solutions formatted if desired
+How it should work:
+    - Count available machines on the clusters
+    - Count possibilities
+    - Split ranges for each machine
+    **BEGIN Cluster
+        - Create possibilities on the range
+        - Validate each possibility
+        - Return vector with matched solutions
+    **END Cluster
+    - Merge all solutions
+    - Calculate time
+    - Count solutions and print
+    - Print all solutions formatted if desired
 
 */
 
@@ -40,14 +42,6 @@ int main(int argc, char const *argv[]){
 
     clock_t begin = clock();
 
-    Converter conv = Converter(16);
-    mpz_class numb = 35;
-    vector<mpz_class> *vec = conv.ConvertToBase(numb);
-
-    for(auto vi : *vec){
-        cout << vi << "|";
-    }
-    cout << endl;
 
     // vector<unsigned long *> poss = PossibilitiesGenerator::generate_all_possibilites(8, 8);
     clock_t end = clock();
