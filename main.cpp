@@ -68,7 +68,7 @@ int main(int argc, char const* argv[]) {
         return 0;
     }
 
-    // NQueensTable *stance = new NQueensTable(8);
+    // NQueensTable *stance = new NQueensTable(tableN);
 
     // cout << stance->serialize() << endl;
     // stance->update_from_serial("5|4|7|6|0|1|2|3");
@@ -79,23 +79,21 @@ int main(int argc, char const* argv[]) {
     // delete stance;
 
     clock_t begin = clock();
-    cout << PossibilitiesGenerator::total_possibilities(tableN) << endl;
-    // vector<unsigned long *> poss = PossibilitiesGenerator::generate_all_possibilites(8, 8);
+    // cout << PossibilitiesGenerator::total_possibilities(tableN) << endl;
+    // vector<unsigned long *> poss = PossibilitiesGenerator::generate_all_possibilites(tableN, tableN);
+    vector<mpz_class*> ranges = PossibilitiesGenerator::generate_ranges(tableN, 5);
     clock_t end = clock();
 
-    // for(auto vi : poss){
-    //     for (auto vj : vi){
-    //         cout << vj << "  ";
-    //     }
-    //     cout << endl;
-    // }
-
     // cout << poss.size() << endl;
-    cout << double(end - begin) / CLOCKS_PER_SEC << endl;
-
     // for(auto it:poss){
     //     free(it);
     // }
+
+    for(auto it:ranges){
+        free(it);
+    }
+
+    cout << double(end - begin) / CLOCKS_PER_SEC << endl;
 
     return 0;
 }
