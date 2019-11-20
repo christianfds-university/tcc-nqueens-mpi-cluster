@@ -13,7 +13,8 @@ NQueensTable::NQueensTable(unsigned long N) {
 }
 
 void NQueensTable::show() {
-    for (unsigned long i = this->N - 1; i >= 0; i--) {
+    int cont = 0;
+    for (unsigned long i = this->N - 1; i >= 0; --i) {
         for (unsigned long j = 0; j < this->N; j++) {
             if(this->board[j] == i)
                 cout << "Q  ";
@@ -21,6 +22,7 @@ void NQueensTable::show() {
                 cout << "*  ";
         }
         cout << endl;
+        if(i == 0) break;
     }
     
 }
@@ -31,7 +33,7 @@ void NQueensTable::update_from_serial(string s) {
     if (split_result.size() == this->N) {
         for (unsigned long i = 0; i < this->N; i++) {
             unsigned long position = stoi(split_result.at(i));
-            if (position >= this->N || position < -1){
+            if (position >= this->N){
                 throw out_of_range("Position invalid!");
             }
             this->board[i] = position;
@@ -45,7 +47,7 @@ void NQueensTable::update_from_vector(vector<unsigned long> const &vec) {
     if (vec.size() == this->N) {
         for (unsigned long i = 0; i < this->N; i++) {
             unsigned long position = vec.at(i);
-            if (position >= this->N || position < -1){
+            if (position >= this->N){
                 throw out_of_range("Position invalid!");
             }
             this->board[i] = position;
