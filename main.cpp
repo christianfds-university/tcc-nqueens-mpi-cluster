@@ -82,17 +82,28 @@ int main(int argc, char const* argv[]) {
     // cout << PossibilitiesGenerator::total_possibilities(tableN) << endl;
     // vector<unsigned long *> poss = PossibilitiesGenerator::generate_all_possibilites(tableN, tableN);
     vector<mpz_class*> ranges = PossibilitiesGenerator::generate_ranges(tableN, 5);
-    clock_t end = clock();
 
     // cout << poss.size() << endl;
     // for(auto it:poss){
     //     free(it);
     // }
 
+    NQueensTable* stance = new NQueensTable(tableN);
     for(auto it:ranges){
+        cout << "Value: " << it[0] << endl;
+        stance->update_from_mpz_class(it[0]);
+        stance->show();
+        cout << "------------------" << endl;
+
+        cout << "Value: " << it[1] << endl;
+        stance->update_from_mpz_class(it[1] - 1);
+        stance->show();
+        cout << "*****************" << endl;
         free(it);
     }
+    delete stance;
 
+    clock_t end = clock();
     cout << double(end - begin) / CLOCKS_PER_SEC << endl;
 
     return 0;

@@ -27,6 +27,13 @@ void NQueensTable::show() {
     
 }
 
+void NQueensTable::update_from_mpz_class(mpz_class const &value) {
+    vector<unsigned long> result = Utils::to_base(value, this->N);
+    Utils::normalize_vector(result, this->N);
+
+    this->update_from_vector(result);
+}
+
 void NQueensTable::update_from_serial(string s) {
     vector<string> split_result = Utils::explode(s, '|');
 
@@ -53,7 +60,7 @@ void NQueensTable::update_from_vector(vector<unsigned long> const &vec) {
             this->board[i] = position;
         }
     } else {
-        throw length_error("Serial has a size different from expected!");
+        throw length_error("Vector has a size different from expected!");
     }
 }
 

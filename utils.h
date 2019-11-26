@@ -5,6 +5,7 @@
 // Dependencies and settings
 #include <string>
 #include <vector>
+#include <gmpxx.h>
 
 using namespace std;
 
@@ -26,6 +27,23 @@ class Utils {
         if (buff != "") v.push_back(buff);
 
         return v;
+    }
+    static const vector<unsigned long> to_base(mpz_class number, unsigned long base) {
+        vector<unsigned long> values;
+        while(number != 0){
+            mpz_class aux = number % base;
+            values.push_back(aux.get_ui());
+            number = number / base;
+        }
+        
+        return values;
+    }
+
+    static void normalize_vector(vector<unsigned long> &vec, unsigned long base) {
+        while(vec.size() < base){
+            vec.push_back(0);
+            cout << "size = " << vec.size() << endl;
+        }
     }
 };
 

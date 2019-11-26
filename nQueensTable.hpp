@@ -5,6 +5,7 @@
 // Dependencies and settings
 #include <string>
 #include <vector>
+#include <gmpxx.h>
 
 using namespace std;
 
@@ -21,6 +22,7 @@ class NQueensTable {
     void show();
 
     // Serialization
+    void update_from_mpz_class(mpz_class const &vec);
     void update_from_vector(vector<unsigned long> const &vec);
     void update_from_serial(string s);
     string serialize();
