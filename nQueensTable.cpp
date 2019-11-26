@@ -30,6 +30,7 @@ void NQueensTable::show() {
 void NQueensTable::update_from_mpz_class(mpz_class const &value) {
     vector<unsigned long> result = Utils::to_base(value, this->N);
     Utils::normalize_vector(result, this->N);
+    std::reverse(result.begin(), result.end());
 
     this->update_from_vector(result);
 }

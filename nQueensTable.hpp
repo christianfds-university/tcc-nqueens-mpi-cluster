@@ -21,10 +21,13 @@ class NQueensTable {
     // Presentation
     void show();
 
-    // Serialization
+    // mpz_class
     void update_from_mpz_class(mpz_class const &vec);
+    // vector<unsigned long>
     void update_from_vector(vector<unsigned long> const &vec);
+    // 5|4|7|6|0|1|2|3
     void update_from_serial(string s);
+    // Serialization
     string serialize();
 
     ~NQueensTable();

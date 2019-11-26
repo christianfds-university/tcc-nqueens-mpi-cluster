@@ -90,15 +90,19 @@ int main(int argc, char const* argv[]) {
 
     NQueensTable* stance = new NQueensTable(tableN);
     for(auto it:ranges){
-        cout << "Value: " << it[0] << endl;
-        stance->update_from_mpz_class(it[0]);
-        stance->show();
-        cout << "------------------" << endl;
+        for (mpz_class value = it[0]; value < it[1]; value++) {
+            stance->update_from_mpz_class(value);
+            stance->show();
+            cout << "------------------" << endl;
+        }
+        // cout << "Value: " << it[0] << endl;
+        // stance->update_from_mpz_class(it[0]);
+        // stance->show();
 
-        cout << "Value: " << it[1] << endl;
-        stance->update_from_mpz_class(it[1] - 1);
-        stance->show();
-        cout << "*****************" << endl;
+        // cout << "Value: " << it[1] << endl;
+        // stance->update_from_mpz_class(it[1] - 1);
+        // stance->show();
+        // cout << "*****************" << endl;
         free(it);
     }
     delete stance;

@@ -39,10 +39,9 @@ class Utils {
         return values;
     }
 
-    static void normalize_vector(vector<unsigned long> &vec, unsigned long base) {
-        while(vec.size() < base){
+    static void normalize_vector(vector<unsigned long> &vec, unsigned long size) {
+        while(vec.size() < size){
             vec.push_back(0);
-            cout << "size = " << vec.size() << endl;
         }
     }
 };
