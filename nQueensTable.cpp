@@ -32,20 +32,7 @@ void NQueensTable::update_from_mpz_class(mpz_class const &value) {
     Utils::normalize_vector(result, this->N);
     std::reverse(result.begin(), result.end());
 
-    try
-    {
-        this->update_from_vector(result);
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-        std::cerr << value << endl;
-        for (auto vi: result){
-            cout << vi;
-        }
-        cout << endl;
-    }
-    
+    this->update_from_vector(result);
 }
 
 void NQueensTable::update_from_serial(string s) {
