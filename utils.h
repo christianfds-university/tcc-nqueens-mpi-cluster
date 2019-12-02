@@ -31,12 +31,14 @@ class Utils {
     
     static const vector<unsigned long> to_base(mpz_class number, unsigned long base) {
         vector<unsigned long> values;
-        while(number != 0){
-            mpz_class aux = number % base;
+        while (number != 0) {
+            mpz_class aux = 0;
+            mpz_fdiv_qr_ui(number.get_mpz_t(), aux.get_mpz_t(), number.get_mpz_t(), base);
             values.push_back(aux.get_ui());
-            number = number / base;
+            // cout << number << "  " << aux << endl;
+            // number = number / base;
         }
-        
+
         return values;
     }
 
