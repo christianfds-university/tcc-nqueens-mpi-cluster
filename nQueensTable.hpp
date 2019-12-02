@@ -30,6 +30,8 @@ class NQueensTable {
     // Serialization
     string serialize();
 
+    bool is_a_valid_table();
+
     ~NQueensTable();
 };
 #endif  // N_QUEENS_TABLE_HPP

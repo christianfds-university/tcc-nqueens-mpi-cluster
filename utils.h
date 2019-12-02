@@ -28,6 +28,7 @@ class Utils {
 
         return v;
     }
+    
     static const vector<unsigned long> to_base(mpz_class number, unsigned long base) {
         vector<unsigned long> values;
         while(number != 0){

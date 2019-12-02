@@ -32,7 +32,20 @@ void NQueensTable::update_from_mpz_class(mpz_class const &value) {
     Utils::normalize_vector(result, this->N);
     std::reverse(result.begin(), result.end());
 
-    this->update_from_vector(result);
+    try
+    {
+        this->update_from_vector(result);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+        std::cerr << value << endl;
+        for (auto vi: result){
+            cout << vi;
+        }
+        cout << endl;
+    }
+    
 }
 
 void NQueensTable::update_from_serial(string s) {
@@ -76,6 +89,23 @@ string NQueensTable::serialize() {
     }
 
     return result;
+}
+
+bool NQueensTable::is_a_valid_table() {
+    for(unsigned long i = 0; i < this->N - 1; i++) {
+        for (unsigned long j = i+1; j < this->N; j++) {
+
+            unsigned long diff = 0;
+            if (this->board[i] > this->board[j])
+                diff = this->board[i] - this->board[j];
+            else
+                diff = this->board[j] - this->board[i];
+
+            if(diff == 0 || diff == j - i)
+                return false;
+        }
+    }
+    return true;
 }
 
 NQueensTable::~NQueensTable() {
