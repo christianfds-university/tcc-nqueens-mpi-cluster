@@ -57,6 +57,21 @@ class Utils {
             vec.push_back(0);
         }
     }
+
+    static const void inc_vec(vector<unsigned long>& vec) {
+        unsigned long base = vec.size();
+        unsigned long pos = base - 1;
+
+        try {
+            while(vec.at(pos) == base - 1){
+                vec.at(pos--) = 0;
+            }
+            vec.at(pos) += 1;
+        } catch(const std::exception& e){
+
+        }
+        
+    }
 };
 
 #endif  // UTILS_H

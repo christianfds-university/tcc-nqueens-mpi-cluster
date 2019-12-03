@@ -5,6 +5,7 @@
 #include "Converter.hpp"
 #include "NQueensTable.hpp"
 #include "PossibilitiesGenerator.hpp"
+#include "utils.h"
 
 using namespace std;
 namespace po = boost::program_options;
@@ -68,35 +69,23 @@ int main(int argc, char const* argv[]) {
         return 0;
     }
 
-    // NQueensTable *stance = new NQueensTable(tableN);
-
-    // cout << stance->serialize() << endl;
-    // stance->update_from_serial("5|4|7|6|0|1|2|3");
-
-    // cout << stance->serialize() << endl;
-    // stance->show();
-
-    // delete stance;
-
     clock_t begin = clock();
-    // cout << PossibilitiesGenerator::total_possibilities(tableN) << endl;
-    // vector<unsigned long *> poss = PossibilitiesGenerator::generate_all_possibilites(tableN, tableN);
     vector<mpz_class*> ranges = PossibilitiesGenerator::generate_ranges(tableN, 5);
-
-    // cout << poss.size() << endl;
-    // for(auto it:poss){
-    //     free(it);
-    // }
 
     unsigned long deu_bons = 0;
     NQueensTable* stance = new NQueensTable(tableN);
+
     for(auto it:ranges){
+        vector<unsigned long> vec = Utils::to_base_trunc(it[0], tableN);
+
         for (mpz_class value = it[0]; value < it[1]; value++) {
-            stance->update_from_mpz_class(value);
+            stance->update_from_vector(vec);
+            Utils::inc_vec(vec);
             if(stance->is_a_valid_table()){
                 deu_bons++;
             }
         }
+        cout << "ended range" << endl;
         free(it);
     }
     delete stance;
