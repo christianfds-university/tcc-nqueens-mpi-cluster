@@ -72,7 +72,7 @@ int main(int argc, char const* argv[]) {
     clock_t begin = clock();
     vector<mpz_class*> ranges = PossibilitiesGenerator::generate_ranges(tableN, 5);
 
-    unsigned long deu_bons = 0;
+    unsigned long valid_tables = 0;
     NQueensTable* stance = new NQueensTable(tableN);
 
     for(auto it:ranges){
@@ -82,7 +82,7 @@ int main(int argc, char const* argv[]) {
             stance->update_from_vector(vec);
             Utils::inc_vec(vec);
             if(stance->is_a_valid_table()){
-                deu_bons++;
+                valid_tables++;
             }
         }
         cout << "ended range" << endl;
@@ -90,7 +90,7 @@ int main(int argc, char const* argv[]) {
     }
     delete stance;
 
-    cout << deu_bons << " deram bom!" << endl;
+    cout << valid_tables << " deram bom!" << endl;
     clock_t end = clock();
     cout << double(end - begin) / CLOCKS_PER_SEC << endl;
 
