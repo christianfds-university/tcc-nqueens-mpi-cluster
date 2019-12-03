@@ -35,8 +35,18 @@ class Utils {
             mpz_class aux = 0;
             mpz_fdiv_qr_ui(number.get_mpz_t(), aux.get_mpz_t(), number.get_mpz_t(), base);
             values.push_back(aux.get_ui());
-            // cout << number << "  " << aux << endl;
-            // number = number / base;
+        }
+
+        return values;
+    }
+
+    static const vector<unsigned long> to_base_trunc(mpz_class number, unsigned long base) {
+        vector<unsigned long> values(base, 0);
+        unsigned long pos = base - 1;
+        while (number != 0) {
+            mpz_class aux = 0;
+            mpz_fdiv_qr_ui(number.get_mpz_t(), aux.get_mpz_t(), number.get_mpz_t(), base);
+            values.at(pos--) = aux.get_ui();
         }
 
         return values;

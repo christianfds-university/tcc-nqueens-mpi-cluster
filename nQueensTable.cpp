@@ -28,11 +28,19 @@ void NQueensTable::show() {
 }
 
 void NQueensTable::update_from_mpz_class(mpz_class const &value) {
-    vector<unsigned long> result = Utils::to_base(value, this->N);
-    Utils::normalize_vector(result, this->N);
-    std::reverse(result.begin(), result.end());
+    vector<unsigned long> result = Utils::to_base_trunc(value, this->N);
 
-    this->update_from_vector(result);
+    if (result.size() == this->N) {
+        for (unsigned long i = 0; i < this->N; i++) {
+            unsigned long q_position = result.at(i);
+            if (q_position >= this->N) {
+                throw out_of_range("Queen position invalid!");
+            }
+            this->board[i] = q_position;
+        }
+    } else {
+        throw length_error("Vector has a size different from expected!");
+    }
 }
 
 void NQueensTable::update_from_serial(string s) {
@@ -40,11 +48,11 @@ void NQueensTable::update_from_serial(string s) {
 
     if (split_result.size() == this->N) {
         for (unsigned long i = 0; i < this->N; i++) {
-            unsigned long position = stoi(split_result.at(i));
-            if (position >= this->N){
-                throw out_of_range("Position invalid!");
+            unsigned long q_position = stoi(split_result.at(i));
+            if (q_position >= this->N){
+                throw out_of_range("Queen position invalid!");
             }
-            this->board[i] = position;
+            this->board[i] = q_position;
         }
     } else {
         throw length_error("Serial has a size different from expected!");
@@ -54,11 +62,11 @@ void NQueensTable::update_from_serial(string s) {
 void NQueensTable::update_from_vector(vector<unsigned long> const &vec) {
     if (vec.size() == this->N) {
         for (unsigned long i = 0; i < this->N; i++) {
-            unsigned long position = vec.at(i);
-            if (position >= this->N){
-                throw out_of_range("Position invalid!");
+            unsigned long q_position = vec.at(i);
+            if (q_position >= this->N){
+                throw out_of_range("Queen position invalid!");
             }
-            this->board[i] = position;
+            this->board[i] = q_position;
         }
     } else {
         throw length_error("Vector has a size different from expected!");
