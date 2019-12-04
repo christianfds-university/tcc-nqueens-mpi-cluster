@@ -6,7 +6,7 @@
 #include "Converter.hpp"
 #include "NQueensTable.hpp"
 #include "PossibilitiesGenerator.hpp"
-#include "utils.h"
+#include "Utils.h"
 
 using namespace std;
 namespace po = boost::program_options;
