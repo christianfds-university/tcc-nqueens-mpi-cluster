@@ -1,4 +1,5 @@
 #include <gmpxx.h>
+#include <mpi.h>
 #include <boost/program_options.hpp>
 #include <ctime>
 #include <iostream>
@@ -14,9 +15,10 @@ namespace po = boost::program_options;
 Requirements:
     libgmp3-dev
     libboost-program-options-dev
+    libopenmpi
 
 How to compile:
-    c++ *.cpp -o main -lgmpxx -lgmp -lboost_program_options && ./main
+    mpic++ *.cpp -lgmpxx -lgmp -lboost_program_options --std=c++11 -o main && mpiexec -n 4 ./main --table 8
 
 How it should work:
     - Count available machines on the clusters
@@ -33,6 +35,26 @@ How it should work:
     - Print all solutions formatted if desired
 
 */
+
+unsigned long run_range(vector<mpz_class*>& ranges, unsigned long tableN, int rank) {
+    unsigned long valid_tables = 0;
+    NQueensTable* stance = new NQueensTable(tableN);
+
+    vector<unsigned long> vec = Utils::to_base_trunc(ranges.at(rank)[0], tableN);
+
+    for (mpz_class value = ranges.at(rank)[0]; value < ranges.at(rank)[1]; value++) {
+        stance->update_from_vector(vec);
+        Utils::inc_vec(vec);
+        if (stance->is_a_valid_table()) {
+            valid_tables++;
+        }
+    }
+    cout << "ended range " << rank << endl;
+
+    delete stance;
+
+    return valid_tables;
+}
 
 int main(int argc, char const* argv[]) {
     unsigned long tableN;
@@ -63,36 +85,40 @@ int main(int argc, char const* argv[]) {
             tableN = vm["table"].as<unsigned long>();
             cout << "Defined table size as: " << tableN << endl;
         }
-    
+
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
         return 0;
     }
 
     clock_t begin = clock();
-    vector<mpz_class*> ranges = PossibilitiesGenerator::generate_ranges(tableN, 5);
 
-    unsigned long valid_tables = 0;
-    NQueensTable* stance = new NQueensTable(tableN);
+    int world_size, self_rank, dest = 0, tag = 12321;
+    MPI_Status status;
 
-    for(auto it:ranges){
-        vector<unsigned long> vec = Utils::to_base_trunc(it[0], tableN);
+    MPI_Init(NULL, NULL);
+    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &self_rank);
 
-        for (mpz_class value = it[0]; value < it[1]; value++) {
-            stance->update_from_vector(vec);
-            Utils::inc_vec(vec);
-            if(stance->is_a_valid_table()){
-                valid_tables++;
-            }
+    unsigned long my_result = 0, result = 0;
+    vector<mpz_class*> ranges = PossibilitiesGenerator::generate_ranges(tableN, world_size);
+
+    my_result = run_range(ranges, tableN, self_rank);
+    if (self_rank == 0) {
+        result = my_result;
+        for (int i = 1; i < world_size; i++) {
+            int source = i;
+            MPI_Recv(&my_result, 1, MPI_UNSIGNED_LONG, source, tag, MPI_COMM_WORLD, &status);
+            result += my_result;
         }
-        cout << "ended range" << endl;
-        free(it);
+        cout << result << " deram bom!" << endl;
+        clock_t end = clock();
+        cout << double(end - begin) / CLOCKS_PER_SEC << endl;
+    } else {
+        MPI_Send(&my_result, 1, MPI_UNSIGNED_LONG, dest, tag, MPI_COMM_WORLD);
     }
-    delete stance;
 
-    cout << valid_tables << " deram bom!" << endl;
-    clock_t end = clock();
-    cout << double(end - begin) / CLOCKS_PER_SEC << endl;
-
+    // Finalize the MPI environment.
+    MPI_Finalize();
     return 0;
 }
