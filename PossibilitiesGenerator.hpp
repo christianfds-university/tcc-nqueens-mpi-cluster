@@ -62,7 +62,6 @@ class PossibilitiesGenerator {
     static vector<mpz_class *> generate_ranges(unsigned long base, unsigned long n_cpu){
         mpz_class n_total = PossibilitiesGenerator::total_possibilities(base);
 
-        cout << n_total << endl;
         mpz_class share = (n_total/n_cpu);
         mpz_class split = (n_total%n_cpu);
         mpz_class acc = 0;

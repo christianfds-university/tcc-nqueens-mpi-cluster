@@ -36,11 +36,11 @@ How it should work:
 
 */
 
-unsigned long run_range(vector<mpz_class*>& ranges, unsigned long tableN, int rank) {
+unsigned long run_range(vector<mpz_class*>& ranges, unsigned long arg_table_size, int rank) {
     unsigned long valid_tables = 0;
-    NQueensTable* stance = new NQueensTable(tableN);
+    NQueensTable* stance = new NQueensTable(arg_table_size);
 
-    vector<unsigned long> vec = Utils::to_base_trunc(ranges.at(rank)[0], tableN);
+    vector<unsigned long> vec = Utils::to_base_trunc(ranges.at(rank)[0], arg_table_size);
 
     for (mpz_class value = ranges.at(rank)[0]; value < ranges.at(rank)[1]; value++) {
         stance->update_from_vector(vec);
@@ -49,7 +49,7 @@ unsigned long run_range(vector<mpz_class*>& ranges, unsigned long tableN, int ra
             valid_tables++;
         }
     }
-    cout << "ended range " << rank << endl;
+    cout << "Finished processing range " << ranges.at(rank)[0] << " to " << (ranges.at(rank)[1] - 1) << " with rank " << rank << endl;
 
     delete stance;
 
@@ -57,7 +57,7 @@ unsigned long run_range(vector<mpz_class*>& ranges, unsigned long tableN, int ra
 }
 
 int main(int argc, char const* argv[]) {
-    unsigned long tableN;
+    unsigned long arg_table_size;
 
     try {
         //Parameter handling
@@ -82,8 +82,7 @@ int main(int argc, char const* argv[]) {
         }
 
         if (vm.count("table")) {
-            tableN = vm["table"].as<unsigned long>();
-            cout << "Defined table size as: " << tableN << endl;
+            arg_table_size = vm["table"].as<unsigned long>();
         }
 
     } catch (const std::exception& e) {
@@ -101,9 +100,9 @@ int main(int argc, char const* argv[]) {
     MPI_Comm_rank(MPI_COMM_WORLD, &self_rank);
 
     unsigned long my_result = 0, result = 0;
-    vector<mpz_class*> ranges = PossibilitiesGenerator::generate_ranges(tableN, world_size);
+    vector<mpz_class*> ranges = PossibilitiesGenerator::generate_ranges(arg_table_size, world_size);
 
-    my_result = run_range(ranges, tableN, self_rank);
+    my_result = run_range(ranges, arg_table_size, self_rank);
     if (self_rank == 0) {
         result = my_result;
         for (int i = 1; i < world_size; i++) {
@@ -111,7 +110,7 @@ int main(int argc, char const* argv[]) {
             MPI_Recv(&my_result, 1, MPI_UNSIGNED_LONG, source, tag, MPI_COMM_WORLD, &status);
             result += my_result;
         }
-        cout << result << " deram bom!" << endl;
+        cout << result << " Valid table formations!" << endl;
         clock_t end = clock();
         cout << double(end - begin) / CLOCKS_PER_SEC << endl;
     } else {
