@@ -14,8 +14,13 @@ Requirements:
     libgmp3-dev
     libopenmpi-dev
 
-How to compile:
-    mpic++ *.cpp -lgmpxx -lgmp --std=c++11 -o main && mpiexec -np 2 -hostfile hostfile ./main 8
+Install requirements on AWS:
+    wget http://us-east-1.ec2.archive.ubuntu.com/ubuntu/pool/main/g/gmp/libgmpxx4ldbl_5.0.2+dfsg-2ubuntu1_amd64.deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/pool/main/g/gmp/libgmp10_5.0.2+dfsg-2ubuntu1_amd64.deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/pool/main/g/gmp/libgmp-dev_5.0.2+dfsg-2ubuntu1_amd64.deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/pool/main/g/gmp/libgmp3-dev_5.0.2+dfsg-2ubuntu1_amd64.deb
+    dpkg -i libgmpxx4ldbl_5.0.2+dfsg-2ubuntu1_amd64.deb libgmp10_5.0.2+dfsg-2ubuntu1_amd64.deb libgmp-dev_5.0.2+dfsg-2ubuntu1_amd64.deb libgmp3-dev_5.0.2+dfsg-2ubuntu1_amd64.deb
+
+How to compile & Run:
+    mpic++ *.cpp -lgmpxx -lgmp --std=c++11 -o main 
+    mpiexec -np 2 --hostfile hostfile ./main 8
 
 How it should work:
     - Count available machines on the clusters
