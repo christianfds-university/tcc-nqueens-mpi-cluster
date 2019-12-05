@@ -1,6 +1,5 @@
 #include <gmpxx.h>
 #include <mpi.h>
-#include <boost/program_options.hpp>
 #include <ctime>
 #include <iostream>
 #include "Converter.hpp"
@@ -9,16 +8,14 @@
 #include "Utils.h"
 
 using namespace std;
-namespace po = boost::program_options;
 
 /*
 Requirements:
     libgmp3-dev
-    libboost-program-options-dev
-    libopenmpi
+    libopenmpi-dev
 
 How to compile:
-    mpic++ *.cpp -lgmpxx -lgmp -lboost_program_options --std=c++11 -o main && mpiexec -n 4 ./main --table 8
+    mpic++ *.cpp -lgmpxx -lgmp --std=c++11 -o main && mpiexec -n 4 ./main --table 8
 
 How it should work:
     - Count available machines on the clusters
@@ -60,34 +57,17 @@ int main(int argc, char const* argv[]) {
     unsigned long arg_table_size;
 
     try {
-        //Parameter handling
-        po::options_description desc_allowed("Allowed options");
-        desc_allowed.add_options()("help", "Produce help message");
-
-        po::options_description desc_required("Required options");
-        desc_required.add_options()("table", po::value<unsigned long>()->default_value(8), "Size of the N-Queens Table");
-
-        po::options_description cmdline_options;
-        cmdline_options.add(desc_allowed).add(desc_required);
-
-        po::variables_map vm;
-        store(po::command_line_parser(argc, argv).options(cmdline_options).run(), vm);
-        notify(vm);
-
-        if (vm.count("help")) {
-            cout << desc_allowed << endl;
-            cout << desc_required << endl;
-
+        if(argc == 1){
+            arg_table_size = 8;
+        } else if(argc == 2) {
+            arg_table_size = strtoul(argv[1], NULL, 10);
+        } else {
+            cout << "Expected input: ./main <table_size>" << endl;
             return 1;
         }
-
-        if (vm.count("table")) {
-            arg_table_size = vm["table"].as<unsigned long>();
-        }
-
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
-        return 0;
+        return 1;
     }
 
     clock_t begin = clock();
