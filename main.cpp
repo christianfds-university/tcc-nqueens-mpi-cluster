@@ -51,7 +51,8 @@ unsigned long run_range(vector<mpz_class*>& ranges, unsigned long arg_table_size
             valid_tables++;
         }
     }
-    cout << "Finished processing range " << ranges.at(rank)[0] << " to " << (ranges.at(rank)[1] - 1) << " with rank " << rank << endl;
+    //cout << "Finished processing range " << ranges.at(rank)[0] << " to " << (ranges.at(rank)[1] - 1) << " with rank " << rank << endl;
+    cout << "Finished processing rank:  " << rank << endl;
 
     delete stance;
 
