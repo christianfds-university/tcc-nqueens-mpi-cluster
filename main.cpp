@@ -15,7 +15,7 @@ Requirements:
     libopenmpi-dev
 
 How to compile:
-    mpic++ *.cpp -lgmpxx -lgmp --std=c++11 -o main && mpiexec -n 4 ./main --table 8
+    mpic++ *.cpp -lgmpxx -lgmp --std=c++11 -o main && mpiexec -np 2 -hostfile hostfile ./main 8
 
 How it should work:
     - Count available machines on the clusters
@@ -75,14 +75,20 @@ int main(int argc, char const* argv[]) {
     int world_size, self_rank, dest = 0, tag = 12321;
     MPI_Status status;
 
+    // Inicializa o MPI
     MPI_Init(NULL, NULL);
+    // Obtém o número total de nós
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+    // Obtém o número do nó atual
     MPI_Comm_rank(MPI_COMM_WORLD, &self_rank);
 
     unsigned long my_result = 0, result = 0;
+    // Gera os escopos que será atribuito a cada rank
     vector<mpz_class*> ranges = PossibilitiesGenerator::generate_ranges(arg_table_size, world_size);
 
+    // Itera pelo escopo
     my_result = run_range(ranges, arg_table_size, self_rank);
+    // Caso seja o rank 0 (nó mestre), recebe todos os resultados obtidos e soma eles
     if (self_rank == 0) {
         result = my_result;
         for (int i = 1; i < world_size; i++) {
@@ -93,11 +99,13 @@ int main(int argc, char const* argv[]) {
         cout << result << " Valid table formations!" << endl;
         clock_t end = clock();
         cout << double(end - begin) / CLOCKS_PER_SEC << endl;
-    } else {
+    } 
+    // Caso contrário, envia para o nó mestre o resultado obtido
+    else {
         MPI_Send(&my_result, 1, MPI_UNSIGNED_LONG, dest, tag, MPI_COMM_WORLD);
     }
 
-    // Finalize the MPI environment.
+    // Finaliza o MPI
     MPI_Finalize();
     return 0;
 }
