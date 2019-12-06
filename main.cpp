@@ -2,7 +2,6 @@
 #include <mpi.h>
 #include <ctime>
 #include <iostream>
-#include "Converter.hpp"
 #include "NQueensTable.hpp"
 #include "PossibilitiesGenerator.hpp"
 #include "Utils.h"
@@ -37,6 +36,12 @@ How it should work:
     - Print all solutions formatted if desired
 
 */
+
+void clear_ranges(vector<mpz_class*>& ranges){
+    for (auto v: ranges){
+        free(v);
+    }
+}
 
 unsigned long run_range(vector<mpz_class*>& ranges, unsigned long arg_table_size, int rank) {
     unsigned long valid_tables = 0;
@@ -94,6 +99,7 @@ int main(int argc, char const* argv[]) {
 
     // Itera pelo escopo
     my_result = run_range(ranges, arg_table_size, self_rank);
+    clear_ranges(ranges);
     // Caso seja o rank 0 (nó mestre), recebe todos os resultados obtidos e soma eles
     if (self_rank == 0) {
         result = my_result;
